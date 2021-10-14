@@ -1,4 +1,4 @@
-# workspace bolier-plate
+# side-project front workspace
 
 ### tech stack
 - react
