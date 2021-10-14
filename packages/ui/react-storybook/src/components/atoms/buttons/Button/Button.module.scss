@@ -1,0 +1,86 @@
+@import 'src/style/color.scss';
+
+@mixin button-style($background-color) {
+  background: $background-color;
+  border: $background-color;
+  color: white;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 1;
+    }
+    20% {
+      transform: scale(25, 25);
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(40, 40);
+    }
+  }
+
+  &:hover:not(:disabled)::after,
+    &:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+}
+
+.button {
+  padding: 8px;
+  background: white;
+  border: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-property: background-color, border-color, color, opacity;
+  transition-duration: 0.2s;
+
+  &.primary {
+    @include button-style($primary-color000);
+    &:hover {
+      background: $primary-color001;
+    }
+    &:active {
+      background: $primary-color000;
+    }
+    &:before {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: $primary-color001;
+    }
+  }
+  
+  &.secondary {
+    @include button-style(#a0ddf9);
+    &:hover {
+      background: #dbf3ff;;
+    }
+    &:active {
+      background: #a0ddf9;
+    }
+  }
+  
+  &.disabled,&:disabled {
+    @include button-style($disabled-color001);
+    cursor: default;
+  }
+}
+

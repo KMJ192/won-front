@@ -3,7 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../**/*.stories.tsx'],
-  addons: [],
+  addons: ['@storybook/addon-actions', '@storybook/addon-controls', '@storybook/addon-essentials'],
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.(sass|s?css)$/,
@@ -30,7 +30,10 @@ module.exports = {
       },
     });
 
+    config.resolve.extensions.push('.scss', '.css');
+
     config.resolve.plugins.push(new TsconfigPathsPlugin({}));
+
     config.resolve.alias = {
       ...config.resolve.alias,
       '@src': path.resolve(__dirname, 'src'),

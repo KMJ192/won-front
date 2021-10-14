@@ -1,2 +1,1 @@
-import Btn from 'src/components/buttons/Button';
-export const Button = Btn;
+export { default as Button } from './src/components/atoms/buttons/Button';
