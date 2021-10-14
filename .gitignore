@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+.DS_Store
+*.swp
+package-lock.json
+.jest
+yarn.lock
+yarn-error.log
+build
+dist
