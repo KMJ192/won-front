@@ -39,8 +39,10 @@ module.exports = {
       '@src': path.resolve(__dirname, 'src'),
     };
 
-    // config.experiments.syncWebAssembly.push(true);
-    // config.experiments.asyncWebAssembly.push(true);
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@wasm': path.resolve(`${__dirname}/../../../../`, 'wasm/rust/pkg'),
+    };
 
     return config;
   },
