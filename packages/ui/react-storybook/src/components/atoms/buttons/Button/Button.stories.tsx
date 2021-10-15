@@ -3,9 +3,10 @@ import { Story } from '@storybook/react';
 
 import Button from './Button';
 import { ButtonArgs, InitButtonType } from './ButtonTypes';
+import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
 
 export default {
-  title: 'STORY BOOK/Atoms/Button',
+  title: `${MAINTITLE}/${SUBTITLE.ATOMS}/Button`,
   component: Button,
   parameters: {
     componentSubtitle: 'Button',
