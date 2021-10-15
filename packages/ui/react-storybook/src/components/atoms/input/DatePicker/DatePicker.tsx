@@ -35,6 +35,9 @@ function DatePicker({
   startDate,
   endDate,
 }: Props): JSX.Element {
+  import('../../../../../../../../wasm/rust/pkg').then((module) => {
+    module.console_test('test');
+  });
   return (
     <>
       <DatePickerInput />

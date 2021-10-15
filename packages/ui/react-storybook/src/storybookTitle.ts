@@ -1,4 +1,4 @@
-export const MAINTITLE: string = 'STORY BOOK';
+export const MAINTITLE = 'STORY BOOK';
 export const SUBTITLE = {
-    ATOMS: 'Atoms',
-} 
+  ATOMS: 'Atoms',
+};

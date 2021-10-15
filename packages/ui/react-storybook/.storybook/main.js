@@ -30,7 +30,7 @@ module.exports = {
       },
     });
 
-    config.resolve.extensions.push('.scss', '.css');
+    config.resolve.extensions.push('.scss', '.css', '.wasm');
 
     config.resolve.plugins.push(new TsconfigPathsPlugin({}));
 
@@ -38,6 +38,9 @@ module.exports = {
       ...config.resolve.alias,
       '@src': path.resolve(__dirname, 'src'),
     };
+
+    // config.experiments.syncWebAssembly.push(true);
+    // config.experiments.asyncWebAssembly.push(true);
 
     return config;
   },
