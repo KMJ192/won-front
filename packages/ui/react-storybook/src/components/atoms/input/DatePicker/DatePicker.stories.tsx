@@ -21,7 +21,7 @@ export default {
 };
 
 const DatePickerTemplate = (args: DatePickerArgs): JSX.Element => {
-  return <DatePicker />;
+  return <DatePicker {...args} />;
 };
 
 export const PrimaryDatePicker: Story<DatePickerArgs> = DatePickerTemplate.bind({});

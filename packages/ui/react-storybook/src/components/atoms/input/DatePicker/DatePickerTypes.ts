@@ -6,8 +6,8 @@ export interface DatePickerStatus {
 export interface DatePickerCustomSize {
   inputWidth?: string;
   inputHeigth?: string;
-  calenderWidth?: string;
-  calenderHeight?: string;
+  calendarWidth?: string;
+  calendarHeight?: string;
 }
 
 export interface DatePickerSizeType {

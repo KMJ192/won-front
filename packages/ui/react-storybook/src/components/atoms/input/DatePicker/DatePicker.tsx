@@ -1,4 +1,6 @@
 import React from 'react';
+import DatePickerCalendar from './DatePickerCalendar';
+import DatePickerInput from './DatePickerInput';
 import { DatePickerCustomSize, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
 
 interface Props {
@@ -8,6 +10,8 @@ interface Props {
   disabled?: boolean;
   isReadOnly?: boolean;
   placeholder?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 DatePicker.defaultProps = {
@@ -17,10 +21,26 @@ DatePicker.defaultProps = {
   disabled: false,
   isReadOnly: false,
   placeholder: undefined,
+  startDate: undefined,
+  endDate: undefined,
 };
 
-function DatePicker({ status, size, customSize, disabled, isReadOnly, placeholder }: Props): JSX.Element {
-  return <div>달력</div>;
+function DatePicker({
+  status,
+  size,
+  customSize,
+  disabled,
+  isReadOnly,
+  placeholder,
+  startDate,
+  endDate,
+}: Props): JSX.Element {
+  return (
+    <>
+      <DatePickerInput />
+      <DatePickerCalendar />
+    </>
+  );
 }
 
 export default DatePicker;
