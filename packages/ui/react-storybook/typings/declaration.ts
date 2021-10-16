@@ -29,6 +29,6 @@ declare module '*.svg' {
 }
 
 declare module '@wasm' {
-  const content: { [key: string]: any };
+  const content: string;
   export default content;
 }

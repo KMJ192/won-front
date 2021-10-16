@@ -35,7 +35,6 @@ function DatePicker({
   startDate,
   endDate,
 }: Props): JSX.Element {
-  import('@wasm').then((wasmModule: any) => wasmModule.console_test('test'));
   return (
     <>
       <DatePickerInput />
