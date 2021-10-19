@@ -5,6 +5,9 @@
 - storybook
 - webpack
 - rollup
+- wasm
+- typescript
+- rust
 - eslint
 - babel
 - prettier
