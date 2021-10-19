@@ -33,7 +33,17 @@ function example2(ctx: CanvasRenderingContext2D): void {
   ctx.stroke();
 }
 function example3(ctx: CanvasRenderingContext2D): void {
-  ctx.lineWidth = 5;
+  const lineWidth = 10;
+  ctx.lineWidth = lineWidth;
+  ctx.lineCap = 'butt';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  ctx.moveTo(lineWidth / 2, 0);
+  ctx.lineTo(30, 30);
+  ctx.lineTo(30, 90);
+  ctx.lineTo(lineWidth / 2, 90);
+  ctx.lineTo(lineWidth / 2, 0);
+  ctx.stroke();
 }
 
 function Line() {
@@ -43,7 +53,8 @@ function Line() {
     const ctx = canvasRef.current?.getContext('2d');
     if (ctx) {
       // example1(ctx);
-      example2(ctx);
+      // example2(ctx);
+      example3(ctx);
     }
   }, []);
 
