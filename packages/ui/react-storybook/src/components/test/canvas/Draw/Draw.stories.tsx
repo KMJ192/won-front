@@ -27,3 +27,8 @@ export const ShapesDraw: Story<DrawArgs> = DrawTemplate.bind({});
 ShapesDraw.args = {
   type: InitDrawType.SHAPE,
 };
+
+export const LineDraw: Story<DrawArgs> = DrawTemplate.bind({});
+LineDraw.args = {
+  type: InitDrawType.LINE,
+};
