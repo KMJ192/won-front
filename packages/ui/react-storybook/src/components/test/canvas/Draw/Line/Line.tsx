@@ -33,7 +33,7 @@ function example2(ctx: CanvasRenderingContext2D): void {
   ctx.stroke();
 }
 function example3(ctx: CanvasRenderingContext2D): void {
-  const lineWidth = 10;
+  const lineWidth: number = 10;
   ctx.lineWidth = lineWidth;
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'round';
@@ -46,6 +46,20 @@ function example3(ctx: CanvasRenderingContext2D): void {
   ctx.stroke();
 }
 
+function example4(ctx: CanvasRenderingContext2D): void {
+  const lineWidth: number = 23;
+
+  ctx.beginPath();
+  ctx.strokeStyle = 'gray';
+  ctx.lineWidth = lineWidth;
+  ctx.moveTo(20, 100);
+  ctx.lineTo(30, 50);
+  ctx.lineTo(45, 100);
+  ctx.lineTo(65, 50);
+  ctx.lineTo(90, 100);
+  ctx.stroke();
+}
+
 function Line() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -54,7 +68,8 @@ function Line() {
     if (ctx) {
       // example1(ctx);
       // example2(ctx);
-      example3(ctx);
+      // example3(ctx);
+      example4(ctx);
     }
   }, []);
 
