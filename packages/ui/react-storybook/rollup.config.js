@@ -57,6 +57,7 @@ export default {
     terser(),
     alias({
       entries: [{ find: '@src', replacement: path.resolve(__dirname, 'src') }],
+      entries: [{ find: '@wasm', replacement: path.resolve(`${__dirname}/../../../../`, 'wasm/rust/pkg') }],
     }),
   ],
 };

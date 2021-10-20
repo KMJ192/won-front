@@ -32,3 +32,13 @@ export const LineDraw: Story<DrawArgs> = DrawTemplate.bind({});
 LineDraw.args = {
   type: InitDrawType.LINE,
 };
+
+export const TextPositionDraw: Story<DrawArgs> = DrawTemplate.bind({});
+TextPositionDraw.args = {
+  type: InitDrawType.POSITION,
+};
+
+export const ImageDraw: Story<DrawArgs> = DrawTemplate.bind({});
+ImageDraw.args = {
+  type: InitDrawType.IMAGE,
+};
