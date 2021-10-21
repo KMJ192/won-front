@@ -24,6 +24,44 @@ function canvasTextSortCenter(txt: string, ctx: CanvasRenderingContext2D, canvas
   ctx.fillText(txt, canvasWidth / 2 - width / 2, canvasHeight / 2);
 }
 
+function canvasPositionHard(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) {
+  ctx.fillStyle = 'green';
+  ctx.fillRect(0, 0, 30, 30);
+
+  ctx.fillStyle = 'blue';
+  ctx.translate(100, 100);
+  ctx.fillRect(0, 0, 30, 30);
+
+  ctx.fillStyle = 'yellow';
+  ctx.translate(0, -100);
+  ctx.fillRect(0, 0, 30, 30);
+}
+
+/*
+  1. 초기상태 저장
+  2. 캔버스 초기화
+  3. 중앙점 이동
+  4. 회전
+  5. fillRect,
+  6. 초기상태
+*/
+function rotateRect(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number): void {
+  let num: number = 1;
+  setInterval(() => {
+    ctx.fillStyle = 'black';
+    ctx.save(); // 초기상태 저장
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 캔버스 초기화 (캔버스 지우기)
+    ctx.translate(canvasWidth / 2, canvasHeight / 2); // 중앙점 이동
+    ctx.rotate((Math.PI / 180) * num); // 회전
+    ctx.fillRect(-30, -30, 60, 60);
+    ctx.restore(); // 초기상태 불러오기
+    num++;
+    if (num >= 356) {
+      num = 1;
+    }
+  }, 10);
+}
+
 function Position(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -34,11 +72,13 @@ function Position(): JSX.Element {
       // canvasText1('canvas', ctx);
       // canvasText2('canvas', ctx);
       if (canvasWidth && canvasHeight) {
-        canvasTextSortCenter('중앙정렬', ctx, canvasWidth, canvasHeight);
+        // canvasTextSortCenter('중앙정렬', ctx, canvasWidth, canvasHeight);
+        // canvasPositionHard(ctx, canvasWidth, canvasHeight);
+        rotateRect(ctx, canvasWidth, canvasHeight);
       }
     }
   }, []);
-  return <canvas ref={canvasRef} width='600px' height='600px' />;
+  return <canvas ref={canvasRef} width='600px' height='400px' style={{ border: 'solid 1px black' }} />;
 }
 
 export default Position;

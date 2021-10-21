@@ -33,8 +33,8 @@ LineDraw.args = {
   type: InitDrawType.LINE,
 };
 
-export const TextPositionDraw: Story<DrawArgs> = DrawTemplate.bind({});
-TextPositionDraw.args = {
+export const PositionDraw: Story<DrawArgs> = DrawTemplate.bind({});
+PositionDraw.args = {
   type: InitDrawType.POSITION,
 };
 
