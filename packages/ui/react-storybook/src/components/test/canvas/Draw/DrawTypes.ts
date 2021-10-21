@@ -3,6 +3,8 @@ export interface DrawTypes {
   readonly LINE: string;
   readonly POSITION: string;
   readonly IMAGE: string;
+  readonly SCALE: string;
+  readonly CIRCLE: string;
 }
 
 export const InitDrawType: DrawTypes = {
@@ -10,6 +12,8 @@ export const InitDrawType: DrawTypes = {
   LINE: 'Line',
   POSITION: 'Position',
   IMAGE: 'Image',
+  SCALE: 'Scale',
+  CIRCLE: 'Sicle',
 };
 
 export interface DrawArgs {

@@ -42,3 +42,13 @@ export const ImageDraw: Story<DrawArgs> = DrawTemplate.bind({});
 ImageDraw.args = {
   type: InitDrawType.IMAGE,
 };
+
+export const ScaleDraw: Story<DrawArgs> = DrawTemplate.bind({});
+ScaleDraw.args = {
+  type: InitDrawType.SCALE,
+};
+
+export const CircleDraw: Story<DrawArgs> = DrawTemplate.bind({});
+CircleDraw.args = {
+  type: InitDrawType.CIRCLE,
+};

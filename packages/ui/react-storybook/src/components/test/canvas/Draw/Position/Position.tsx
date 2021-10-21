@@ -47,13 +47,22 @@ function canvasPositionHard(ctx: CanvasRenderingContext2D, canvasWidth: number, 
 */
 function rotateRect(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number): void {
   let num: number = 1;
+  const rectSize = {
+    width: 80,
+    height: 80,
+  };
   setInterval(() => {
     ctx.fillStyle = 'black';
     ctx.save(); // 초기상태 저장
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 캔버스 초기화 (캔버스 지우기)
     ctx.translate(canvasWidth / 2, canvasHeight / 2); // 중앙점 이동
     ctx.rotate((Math.PI / 180) * num); // 회전
-    ctx.fillRect(-30, -30, 60, 60);
+    ctx.fillRect(
+      rectSize.width / 2 - rectSize.width,
+      rectSize.height / 2 - rectSize.height,
+      rectSize.width,
+      rectSize.height,
+    );
     ctx.restore(); // 초기상태 불러오기
     num++;
     if (num >= 356) {
