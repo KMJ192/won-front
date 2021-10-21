@@ -11,3 +11,4 @@
 - eslint
 - babel
 - prettier
+- HTML Canvas
