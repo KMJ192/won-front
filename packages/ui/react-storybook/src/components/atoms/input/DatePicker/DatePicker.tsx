@@ -37,7 +37,15 @@ function DatePicker({
 }: Props): JSX.Element {
   return (
     <>
-      <DatePickerInput />
+      <DatePickerInput
+        status={status}
+        size={size}
+        placeholder={placeholder}
+        startDate={startDate}
+        endDate={endDate}
+        isReadOnly={isReadOnly}
+        disabled={disabled}
+      />
       <DatePickerCalendar />
     </>
   );
