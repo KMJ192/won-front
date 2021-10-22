@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface DatePickerStatus {
   readonly DEFAULT: string;
   readonly ERROR: string;
@@ -34,4 +36,5 @@ export interface DatePickerArgs {
   disabled?: boolean;
   isReadOnly?: boolean;
   placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Story } from '@storybook/react';
 import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
 import DatePicker from './DatePicker';
-import { DatePickerArgs, InitDatePickerSize } from './DatePickerTypes';
+import { DatePickerArgs, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
 
 export default {
   title: `${MAINTITLE}/${SUBTITLE.ATOMS}/DatePicker`,
@@ -17,10 +17,18 @@ export default {
         type: 'radio',
       },
     },
+    status: {
+      options: Object.values(InitDatePickerStatus).map((status: string) => status),
+      control: {
+        type: 'select',
+      },
+    },
   },
 };
 
 const DatePickerTemplate = (args: DatePickerArgs): JSX.Element => {
+  const [date, setDate] = useState<string>();
+
   return <DatePicker {...args} />;
 };
 
@@ -29,5 +37,5 @@ PrimaryDatePicker.args = {
   disabled: false,
   size: InitDatePickerSize.MEDIUM,
   isReadOnly: false,
-  placeholder: 'place holder',
+  placeholder: 'placeholder',
 };

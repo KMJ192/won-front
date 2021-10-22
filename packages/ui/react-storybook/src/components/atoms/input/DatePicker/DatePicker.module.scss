@@ -1,0 +1,54 @@
+@import 'src/style/color.scss';
+
+@mixin inputbox($height, $font-size) {
+  &.error {
+    border: 2px solid rgb(255, 0, 0) !important;
+  }
+}
+
+@mixin date-picker-input($height, $font-size) {
+  display: flex;
+  gap: 10px;
+  & > input {
+    width: 100%;
+    height: $height;
+    line-height: $height;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 8px 2.5em 8px 0.94118em;
+    background-color: $mono00;
+    outline: none;
+    
+    &:active,
+    &:focus {
+      border: 1px solid $primary-color000;
+    }
+
+    &::placeholder {
+      color: $placeholder-text-color;
+    }
+
+    &:read-only {
+      border: 1px solid $mono03 !important;
+      padding: 0 0.94118em !important;
+      border-color: $mono03 !important;
+      color: $mono07;
+      background-color: $mono03;
+    }
+  }
+}
+
+.primary-date-picker {
+  position: relative;
+  &.date-picker {
+    &.large {
+      @include date-picker-input(44px, 16px);
+    }
+    &.medium {
+      @include date-picker-input(36px, 14px);
+    }
+    &.small {
+      @include date-picker-input(30px, 14px);
+    }
+  }
+}

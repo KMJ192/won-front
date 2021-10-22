@@ -3,6 +3,10 @@ import DatePickerCalendar from './DatePickerCalendar';
 import DatePickerInput from './DatePickerInput';
 import { DatePickerCustomSize, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
 
+import classnmaes from 'classnames/bind';
+import style from './DatePicker.module.scss';
+const cx = classnmaes.bind(style);
+
 interface Props {
   status?: string;
   size?: string;
@@ -12,6 +16,7 @@ interface Props {
   placeholder?: string;
   startDate?: string;
   endDate?: string;
+  readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 DatePicker.defaultProps = {
@@ -23,6 +28,7 @@ DatePicker.defaultProps = {
   placeholder: undefined,
   startDate: undefined,
   endDate: undefined,
+  onChange: undefined,
 };
 
 function DatePicker({
@@ -34,9 +40,10 @@ function DatePicker({
   placeholder,
   startDate,
   endDate,
+  onChange,
 }: Props): JSX.Element {
   return (
-    <>
+    <div className={cx('primary-date-picker', 'date-picker', size)}>
       <DatePickerInput
         status={status}
         size={size}
@@ -45,9 +52,10 @@ function DatePicker({
         endDate={endDate}
         isReadOnly={isReadOnly}
         disabled={disabled}
+        onChange={onChange}
       />
       <DatePickerCalendar />
-    </>
+    </div>
   );
 }
 

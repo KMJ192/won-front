@@ -13,6 +13,7 @@ interface Props {
   endDate?: string;
   disabled?: boolean;
   isReadOnly?: boolean;
+  readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 DatePickerInput.defaultProps = {
@@ -23,22 +24,42 @@ DatePickerInput.defaultProps = {
   endDate: undefined,
   disabled: false,
   isReadOnly: false,
+  onChange: undefined,
 };
 
-function DatePickerInput({ status, size, placeholder, startDate, endDate, disabled, isReadOnly }: Props): JSX.Element {
+function DatePickerInput({
+  status,
+  size,
+  placeholder,
+  startDate,
+  endDate,
+  disabled,
+  isReadOnly,
+  onChange,
+}: Props): JSX.Element {
   return (
     <>
       <input
-        className={cx('date-picker-input-first', status)}
+        className={cx(status)}
+        type='text'
         placeholder={placeholder}
         disabled={disabled}
         readOnly={isReadOnly}
+        onChange={onChange}
+        autoComplete='off'
+        name='from'
+        value={startDate}
       />
       <input
-        className={cx('date-picker-input-second', status)}
+        className={cx(status)}
+        type='text'
         placeholder={placeholder}
         disabled={disabled}
         readOnly={isReadOnly}
+        onChange={onChange}
+        autoComplete='off'
+        name='to'
+        value={endDate}
       />
     </>
   );
