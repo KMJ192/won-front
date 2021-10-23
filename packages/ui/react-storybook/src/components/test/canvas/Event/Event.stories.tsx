@@ -26,4 +26,7 @@ const EventTemplate = (args: CanvasEventArgs): JSX.Element => {
 export const CanvasEventFirst: Story<CanvasEventArgs> = EventTemplate.bind({});
 CanvasEventFirst.args = {
   type: InitCanvasEventType.FIRST,
+  canvasStyle: {
+    border: 'solid 1px black',
+  },
 };

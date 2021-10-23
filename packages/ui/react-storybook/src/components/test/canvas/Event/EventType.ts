@@ -8,4 +8,7 @@ export const InitCanvasEventType: CanvasEventTypes = {
 
 export interface CanvasEventArgs {
   type: string;
+  canvasStyle?: {
+    [key: string]: string;
+  };
 }
