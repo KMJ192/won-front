@@ -30,3 +30,11 @@ CanvasEventFirst.args = {
     border: 'solid 1px black',
   },
 };
+
+export const CanvasEventSecond: Story<CanvasEventArgs> = EventTemplate.bind({});
+CanvasEventSecond.args = {
+  type: InitCanvasEventType.SECOND,
+  canvasStyle: {
+    border: 'solid 1px black',
+  },
+};

@@ -58,13 +58,6 @@ function First({ canvasStyle }: Props) {
     },
   ]);
 
-  useEffect(() => {
-    const ctx = canvasRef.current?.getContext('2d');
-    if (ctx) {
-      areaSample(ctx, position);
-    }
-  }, [position]);
-
   const isArea = useCallback(
     (x: number, y: number): IsRectArea => {
       for (let index = 0; index < position.length; index++) {
@@ -122,6 +115,13 @@ function First({ canvasStyle }: Props) {
     },
     [isArea, position],
   );
+
+  useEffect(() => {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (ctx) {
+      areaSample(ctx, position);
+    }
+  }, [position]);
 
   useEffect(() => {
     const cur = canvasRef.current;
