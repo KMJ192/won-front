@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { InitDatePickerSize, InitDatePickerStatus } from '../DatePickerTypes';
 
 import classnames from 'classnames/bind';
@@ -9,60 +9,63 @@ interface Props {
   status?: string;
   size?: string;
   placeholder?: string;
+  name?: string;
   startDate?: string;
   endDate?: string;
   disabled?: boolean;
   isReadOnly?: boolean;
+  readonly calendarClose?: () => void;
+  readonly calendarOpen?: () => void;
   readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+const DatePickerInput = forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      status,
+      size,
+      placeholder,
+      name,
+      startDate,
+      endDate,
+      disabled,
+      isReadOnly,
+      calendarClose,
+      calendarOpen,
+      onChange,
+    },
+    ref,
+  ): JSX.Element => {
+    return (
+      <input
+        className={cx(status)}
+        type='text'
+        placeholder={placeholder}
+        disabled={disabled}
+        readOnly={isReadOnly}
+        onChange={onChange}
+        onClick={calendarOpen}
+        autoComplete='off'
+        name={name}
+        ref={ref}
+        value={startDate || endDate}
+      />
+    );
+  },
+);
 
 DatePickerInput.defaultProps = {
   status: InitDatePickerStatus.DEFAULT,
   size: InitDatePickerSize.MEDIUM,
   placeholder: undefined,
+  name: undefined,
   startDate: undefined,
   endDate: undefined,
   disabled: false,
   isReadOnly: false,
+  calendarClose: undefined,
+  calendarOpen: undefined,
   onChange: undefined,
 };
-
-function DatePickerInput({
-  status,
-  size,
-  placeholder,
-  startDate,
-  endDate,
-  disabled,
-  isReadOnly,
-  onChange,
-}: Props): JSX.Element {
-  return (
-    <>
-      <input
-        className={cx(status)}
-        type='text'
-        placeholder={placeholder}
-        disabled={disabled}
-        readOnly={isReadOnly}
-        onChange={onChange}
-        autoComplete='off'
-        name='from'
-        value={startDate}
-      />
-      <input
-        className={cx(status)}
-        type='text'
-        placeholder={placeholder}
-        disabled={disabled}
-        readOnly={isReadOnly}
-        onChange={onChange}
-        autoComplete='off'
-        name='to'
-        value={endDate}
-      />
-    </>
-  );
-}
 
 export default DatePickerInput;

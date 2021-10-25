@@ -1,0 +1,13 @@
+@import 'src/style/color.scss';
+
+.date-picker-calendar {
+  position: absolute;
+  padding: 16px 10px 16px 10px;
+  background-color: $mono00;
+  margin-top: 7px;
+  margin-left: 1px;
+  border-radius: 6px;
+  box-shadow: 0 3px 9px 0 rgba(18, 22, 25, 0.08),
+    0 2px 4px 1px rgba(18, 22, 25, 0.14);
+
+}

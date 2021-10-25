@@ -29,6 +29,7 @@
     "classnames": "^2.3.1",
     "css-loader": "5.2.6",
     "install-peers": "^1.0.3",
+    "moment": "^2.29.1",
     "node-sass": "^6.0.1",
     "postcss": "^8.3.6",
     "resolve-url-loader": "^4.0.0",
