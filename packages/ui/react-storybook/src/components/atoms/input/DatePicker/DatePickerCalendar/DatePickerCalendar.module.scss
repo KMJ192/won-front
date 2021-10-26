@@ -1,6 +1,6 @@
 @import 'src/style/color.scss';
 
-.date-picker-calendar {
+@mixin date-picker-calendar() {
   position: absolute;
   padding: 16px 10px 16px 10px;
   background-color: $mono00;
@@ -9,5 +9,17 @@
   border-radius: 6px;
   box-shadow: 0 3px 9px 0 rgba(18, 22, 25, 0.08),
     0 2px 4px 1px rgba(18, 22, 25, 0.14);
+}
 
+.date-picker-calendar {
+  display: flex;
+  &.large {
+    @include date-picker-calendar()
+  }
+  &.medium {
+    @include date-picker-calendar()
+  }
+  &.small {
+    @include date-picker-calendar()
+  }
 }

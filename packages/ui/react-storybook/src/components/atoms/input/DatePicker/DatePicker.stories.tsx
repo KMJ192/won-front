@@ -38,4 +38,9 @@ PrimaryDatePicker.args = {
   size: InitDatePickerSize.MEDIUM,
   isReadOnly: false,
   placeholder: 'placeholder',
+  customStyle: {
+    firstCalendarStyle: {
+      marginRight: '40px',
+    },
+  },
 };

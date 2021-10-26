@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { InitDatePickerSize, InitDatePickerStatus } from '../DatePickerTypes';
+import { InitDatePickerSize, InitDatePickerStatus, CustomStyle } from '../DatePickerTypes';
 
 import classnames from 'classnames/bind';
 import style from './DatePickerInput.module.scss';
@@ -14,31 +14,19 @@ interface Props {
   endDate?: string;
   disabled?: boolean;
   isReadOnly?: boolean;
-  readonly calendarClose?: () => void;
+  customStyle?: { [key: string]: string };
   readonly calendarOpen?: () => void;
   readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const DatePickerInput = forwardRef<HTMLInputElement, Props>(
   (
-    {
-      status,
-      size,
-      placeholder,
-      name,
-      startDate,
-      endDate,
-      disabled,
-      isReadOnly,
-      calendarClose,
-      calendarOpen,
-      onChange,
-    },
+    { status, size, placeholder, name, startDate, endDate, disabled, isReadOnly, customStyle, calendarOpen, onChange },
     ref,
   ): JSX.Element => {
     return (
       <input
-        className={cx(status)}
+        className={cx(status, size)}
         type='text'
         placeholder={placeholder}
         disabled={disabled}
@@ -49,6 +37,7 @@ const DatePickerInput = forwardRef<HTMLInputElement, Props>(
         name={name}
         ref={ref}
         value={startDate || endDate}
+        style={customStyle}
       />
     );
   },
@@ -63,7 +52,7 @@ DatePickerInput.defaultProps = {
   endDate: undefined,
   disabled: false,
   isReadOnly: false,
-  calendarClose: undefined,
+  customStyle: undefined,
   calendarOpen: undefined,
   onChange: undefined,
 };

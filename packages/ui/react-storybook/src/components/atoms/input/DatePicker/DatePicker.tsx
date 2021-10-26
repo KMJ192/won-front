@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 import DatePickerCalendar from './DatePickerCalendar';
 import DatePickerInput from './DatePickerInput';
-import { DatePickerCustomSize, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
+import { CustomStyle, DatePickerCustomSize, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
 
 import classnmaes from 'classnames/bind';
 import style from './DatePicker.module.scss';
@@ -17,7 +17,9 @@ interface Props {
   startDate?: string;
   endDate?: string;
   today?: string;
+  customStyle?: CustomStyle;
   DateCell?: JSX.Element;
+  readonly cellRender?: (d: any, propItem: any) => void;
   readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -31,7 +33,9 @@ DatePicker.defaultProps = {
   startDate: undefined,
   endDate: undefined,
   today: undefined,
+  customStyle: undefined,
   DateCell: undefined,
+  cellRender: undefined,
   onChange: undefined,
 };
 
@@ -45,7 +49,9 @@ function DatePicker({
   startDate,
   endDate,
   today,
+  customStyle,
   DateCell,
+  cellRender,
   onChange,
 }: Props): JSX.Element {
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -94,10 +100,10 @@ function DatePicker({
           isReadOnly={isReadOnly}
           disabled={disabled}
           calendarOpen={calendarOpen}
-          calendarClose={calendarClose}
           onChange={onChange}
           name='from'
           ref={firstInputRef}
+          customStyle={customStyle?.firstInputStyle}
         />
         <DatePickerInput
           status={status}
@@ -108,13 +114,21 @@ function DatePicker({
           isReadOnly={isReadOnly}
           disabled={disabled}
           calendarOpen={calendarOpen}
-          calendarClose={calendarClose}
           onChange={onChange}
           name='to'
           ref={secondInputRef}
+          customStyle={customStyle?.secondInputStyle}
         />
       </div>
-      {isOpen && <DatePickerCalendar isOpen={isOpen} calendarClose={calendarClose} ref={calendarRef} />}
+      {isOpen && (
+        <DatePickerCalendar
+          ref={calendarRef}
+          isOpen={isOpen}
+          calendarClose={calendarClose}
+          cellRender={cellRender}
+          customStyle={customStyle}
+        />
+      )}
     </div>
   );
 }
