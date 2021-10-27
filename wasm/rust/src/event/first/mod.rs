@@ -1,10 +1,11 @@
-use wasm_bindgen::JsCast;
+use serde::{Serialize, Deserialize};
 
 pub struct IsRectArea {
   result: bool,
   index: i32,
 }
 
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct Position {
   x: i32,
   y: i32,
@@ -19,7 +20,7 @@ struct RectPosition {
   y_end: i32
 }
 
-pub fn is_area(x: i32, y: i32, position: Vec<Position>) -> IsRectArea {
+pub fn is_area(x: i32, y: i32, position: &Vec<Position>) -> IsRectArea {
   for index in 0..position.len() {
     let pos = &position[index];
 
@@ -46,15 +47,28 @@ pub fn is_area(x: i32, y: i32, position: Vec<Position>) -> IsRectArea {
   }
 }
 
-pub fn rect_area(canvas: web_sys::HtmlCanvasElement) {
-  let cur = canvas
-            .get_context("2d")
-            .unwrap()
-            .unwrap()
-            .dyn_into::<web_sys::CanvasRenderingContext2d>()
-            .unwrap();
+pub fn rect_area(e: &web_sys::MouseEvent, canvas: &web_sys::HtmlCanvasElement, ctx: &web_sys::CanvasRenderingContext2d, position: Vec<Position>) {
   let mouse = | e: &web_sys::MouseEvent| {
-    let x = e.client_x() - canvas.offset_left();
-    let y = e.client_y() - canvas.offset_top();
+    let x: i32 = e.client_x() - canvas.offset_left();
+    let y: i32 = e.client_y() - canvas.offset_top();
+    let ini: IsRectArea = is_area(x, y, &position);
+    if ini.result == true {
+      ctx.clear_rect(0.0, 0.0, 600.0, 400.0);
+      for idx in 0..position.len() {
+        let pos = position[idx];
+        ctx.save();
+        if ini.index == idx as i32 {
+          ctx.set_fill_style(&"blue".into());
+        }
+        ctx.fill_rect(
+          pos.x as f64, 
+          pos.y as f64, 
+          pos.width as f64, 
+          pos.height as f64
+        );
+        ctx.restore();
+      }
+    }
   };
+  mouse(e);
 }

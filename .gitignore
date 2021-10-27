@@ -11,3 +11,4 @@ build
 dist
 wasm/rust/target
 wasm/rust/Cargo.lock
+pkg

@@ -88,32 +88,34 @@ function First({ canvasStyle }: Props) {
 
   const rectArea = useCallback(
     (e: MouseEvent) => {
-      const cur = canvasRef.current;
       const ctx = canvasRef.current?.getContext('2d');
-      if (cur && ctx) {
+      if (canvasRef.current && ctx) {
+        import('@wasm').then((module: any) => {
+          module.first_evnet(e, canvasRef.current, ctx, position);
+        });
         // canvas의 mouse클릭 위치 - canvas의 가장 왼쪽(x값)
         // canvas의 mouse클릭 위치 - cavnas의 가장 위쪽(y값)
-        const x = e.clientX - canvasRef.current.offsetLeft;
-        const y = e.clientY - canvasRef.current.offsetTop;
-        const ini: IsRectArea = isArea(x, y);
-        if (ini.result) {
-          ctx.clearRect(0, 0, 600, 400);
-          position.forEach((element: Position, idx: number) => {
-            ctx.save();
-            if (ini.index === idx) {
-              ctx.fillStyle = 'blue';
-            }
-            ctx.fillRect(element.x, element.y, element.width, element.height);
-            ctx.restore();
-          });
-          setTimeout(() => {
-            ctx.clearRect(0, 0, 600, 600);
-            areaSample(ctx, position);
-          }, 1000);
-        }
+        // const x = e.clientX - canvasRef.current.offsetLeft;
+        // const y = e.clientY - canvasRef.current.offsetTop;
+        // const ini: IsRectArea = isArea(x, y);
+        // if (ini.result) {
+        //   ctx.clearRect(0, 0, 600, 400);
+        //   position.forEach((element: Position, idx: number) => {
+        //     ctx.save();
+        //     if (ini.index === idx) {
+        //       ctx.fillStyle = 'blue';
+        //     }
+        //     ctx.fillRect(element.x, element.y, element.width, element.height);
+        //     ctx.restore();
+        //   });
+        // }
+        setTimeout(() => {
+          ctx.clearRect(0, 0, 600, 600);
+          areaSample(ctx, position);
+        }, 1000);
       }
     },
-    [isArea, position],
+    [position],
   );
 
   useEffect(() => {

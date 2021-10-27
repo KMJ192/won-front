@@ -1,5 +1,7 @@
 use wasm_bindgen::prelude::*;
-// use wasm_bindgen::JsValue;
+// use js_sys::Array;
+// use wasm_bindgen::JsCast;
+use wasm_bindgen::JsValue;
 
 #[cfg(test)]
 mod tests {
@@ -15,9 +17,14 @@ pub fn console_test(str: String) {
 }
 
 pub mod event;
-use event::second::run;
+use event::first::*;
+
+// fn test(position: Array) -> Vec<Position> {
+    
+// }
 
 #[wasm_bindgen]
-pub fn first_evnet(canvasRef: web_sys::HtmlCanvasElement) {
-    
+pub fn first_evnet(e: &web_sys::MouseEvent, canvas: &web_sys::HtmlCanvasElement, ctx: &web_sys::CanvasRenderingContext2d, position: &JsValue) {
+    let pos: Vec<Position> = position.into_serde().unwrap();
+    rect_area(e, canvas, ctx, pos);
 }
