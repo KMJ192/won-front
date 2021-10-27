@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { InitDatePickerSize, InitDatePickerStatus, CustomStyle } from '../DatePickerTypes';
+import { InitDatePickerSize, InitDatePickerStatus } from '../DatePickerTypes';
 
 import classnames from 'classnames/bind';
 import style from './DatePickerInput.module.scss';
@@ -10,8 +10,6 @@ interface Props {
   size?: string;
   placeholder?: string;
   name?: string;
-  startDate?: string;
-  endDate?: string;
   disabled?: boolean;
   isReadOnly?: boolean;
   customStyle?: { [key: string]: string };
@@ -21,7 +19,7 @@ interface Props {
 
 const DatePickerInput = forwardRef<HTMLInputElement, Props>(
   (
-    { status, size, placeholder, name, startDate, endDate, disabled, isReadOnly, customStyle, calendarOpen, onChange },
+    { status, size, placeholder, name, disabled, isReadOnly, customStyle, calendarOpen, onChange },
     ref,
   ): JSX.Element => {
     return (
@@ -36,7 +34,6 @@ const DatePickerInput = forwardRef<HTMLInputElement, Props>(
         autoComplete='off'
         name={name}
         ref={ref}
-        value={startDate || endDate}
         style={customStyle}
       />
     );
@@ -48,8 +45,6 @@ DatePickerInput.defaultProps = {
   size: InitDatePickerSize.MEDIUM,
   placeholder: undefined,
   name: undefined,
-  startDate: undefined,
-  endDate: undefined,
   disabled: false,
   isReadOnly: false,
   customStyle: undefined,

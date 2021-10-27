@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Story } from '@storybook/react';
 import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
 import DatePicker from './DatePicker';
-import { DatePickerArgs, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
+import {
+  DatePickerArgs,
+  DatePickerCalendarCellPropItem,
+  InitDatePickerSize,
+  InitDatePickerStatus,
+} from './DatePickerTypes';
+import DatePickerCalendarCell from './DatePickerCalendar/DatePickerCalendarCell';
 
 export default {
   title: `${MAINTITLE}/${SUBTITLE.ATOMS}/DatePicker`,
@@ -28,8 +34,14 @@ export default {
 
 const DatePickerTemplate = (args: DatePickerArgs): JSX.Element => {
   const [date, setDate] = useState<string>();
-
-  return <DatePicker {...args} />;
+  return (
+    <DatePicker
+      {...args}
+      cellRender={(d: any, propItem: DatePickerCalendarCellPropItem) => {
+        return <DatePickerCalendarCell day={d} propItem={propItem} />;
+      }}
+    />
+  );
 };
 
 export const PrimaryDatePicker: Story<DatePickerArgs> = DatePickerTemplate.bind({});
@@ -38,9 +50,4 @@ PrimaryDatePicker.args = {
   size: InitDatePickerSize.MEDIUM,
   isReadOnly: false,
   placeholder: 'placeholder',
-  customStyle: {
-    firstCalendarStyle: {
-      marginRight: '40px',
-    },
-  },
 };

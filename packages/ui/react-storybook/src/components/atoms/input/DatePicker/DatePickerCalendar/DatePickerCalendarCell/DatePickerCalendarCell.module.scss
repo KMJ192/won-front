@@ -1,0 +1,13 @@
+@import 'src/style/color.scss';
+@import '../DatePickerCalendarContents/DatePickerCalendarContents.module.scss';
+
+.cell {
+  @include calendar-cell(36px);
+  .disabled {
+    color: $mono05;
+  }
+  &:hover {
+    background-color: rgba($blue103, 0.08);
+    border-radius: 50%;
+  }
+}

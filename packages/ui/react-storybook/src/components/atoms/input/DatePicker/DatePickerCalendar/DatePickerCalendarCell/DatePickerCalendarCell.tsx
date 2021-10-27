@@ -1,18 +1,20 @@
 import React from 'react';
+import moment from 'moment';
 
 import classNames from 'classnames/bind';
 import style from './DatePickerCalendarCell.module.scss';
+import { DatePickerCalendarCellPropItem } from '../../DatePickerTypes';
 const cx = classNames.bind(style);
 
 interface Props {
-  disabled: boolean;
-  day: number;
-  selectDate: (day: number) => void;
+  day: moment.Moment;
+  propItem: DatePickerCalendarCellPropItem;
 }
 
-function DatePickerCalendarCell({ disabled, day, selectDate }: Props) {
+function DatePickerCalendarCell({ day, propItem }: Props) {
+  const { selected, from, to, disabled, thisMonth, onClick } = propItem;
   return (
-    <span className={cx('cell')} onClick={() => selectDate(day)}>
+    <span className={cx('cell')} onClick={onClick}>
       <span className={cx(disabled)}>{day}</span>
     </span>
   );

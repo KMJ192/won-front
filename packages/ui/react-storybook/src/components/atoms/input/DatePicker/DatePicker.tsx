@@ -1,6 +1,9 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
+import moment from 'moment';
+
 import DatePickerCalendar from './DatePickerCalendar';
 import DatePickerInput from './DatePickerInput';
+
 import { CustomStyle, DatePickerCustomSize, InitDatePickerSize, InitDatePickerStatus } from './DatePickerTypes';
 
 import classnmaes from 'classnames/bind';
@@ -14,8 +17,8 @@ interface Props {
   disabled?: boolean;
   isReadOnly?: boolean;
   placeholder?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
   today?: string;
   customStyle?: CustomStyle;
   DateCell?: JSX.Element;
@@ -95,8 +98,6 @@ function DatePicker({
           status={status}
           size={size}
           placeholder={placeholder}
-          startDate={startDate}
-          endDate={endDate}
           isReadOnly={isReadOnly}
           disabled={disabled}
           calendarOpen={calendarOpen}
@@ -109,8 +110,6 @@ function DatePicker({
           status={status}
           size={size}
           placeholder={placeholder}
-          startDate={startDate}
-          endDate={endDate}
           isReadOnly={isReadOnly}
           disabled={disabled}
           calendarOpen={calendarOpen}
@@ -126,6 +125,9 @@ function DatePicker({
           isOpen={isOpen}
           calendarClose={calendarClose}
           cellRender={cellRender}
+          size={size}
+          startDate={startDate}
+          endDate={endDate}
           customStyle={customStyle}
         />
       )}

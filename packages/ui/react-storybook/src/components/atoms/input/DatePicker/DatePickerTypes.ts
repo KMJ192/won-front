@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 
 export interface DatePickerStatus {
@@ -16,6 +17,15 @@ export interface DatePickerSizeType {
   readonly LARGE: string;
   readonly MEDIUM: string;
   readonly SMALL: string;
+}
+
+export interface DatePickerCalendarCellPropItem {
+  selected: boolean;
+  from: boolean;
+  to: boolean;
+  disabled: boolean;
+  thisMonth: boolean;
+  readonly onClick: () => void;
 }
 
 export interface CustomStyle {
@@ -47,7 +57,9 @@ export const InitDatePickerSize: DatePickerSizeType = {
 export interface DatePickerArgs {
   status?: string;
   size?: string;
-  minDate?: string;
+  minDate?: moment.Moment;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
   today?: string;
   customSize?: DatePickerCustomSize;
   disabled?: boolean;
@@ -56,4 +68,5 @@ export interface DatePickerArgs {
   customStyle?: CustomStyle;
   readonly cellRender?: (d: any, propItem: any) => void;
   readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  readonly submit?: (from: any, to: any) => void;
 }

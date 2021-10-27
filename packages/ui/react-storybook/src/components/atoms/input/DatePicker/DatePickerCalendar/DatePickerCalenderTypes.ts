@@ -22,7 +22,7 @@ export interface CalendarChangeEventType {
   movePrev: () => void;
 }
 
-export const DayOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export const dayOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export function calDateList(calendarDate: DateList): CellValue[][] {
   const prevMonthLastDate = calendarDate.prev.date();
