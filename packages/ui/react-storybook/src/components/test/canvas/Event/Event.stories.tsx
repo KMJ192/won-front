@@ -38,3 +38,11 @@ CanvasEventSecond.args = {
     border: 'solid 1px black',
   },
 };
+
+export const CanvasEventThird: Story<CanvasEventArgs> = EventTemplate.bind({});
+CanvasEventThird.args = {
+  type: InitCanvasEventType.THIRD,
+  canvasStyle: {
+    border: 'solid 1px black',
+  },
+};
