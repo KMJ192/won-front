@@ -19,10 +19,6 @@ pub fn console_test(str: String) {
 pub mod event;
 use event::first::*;
 
-// fn test(position: Array) -> Vec<Position> {
-    
-// }
-
 #[wasm_bindgen]
 pub fn first_evnet(e: &web_sys::MouseEvent, canvas: &web_sys::HtmlCanvasElement, ctx: &web_sys::CanvasRenderingContext2d, position: &JsValue) {
     let pos: Vec<Position> = position.into_serde().unwrap();
