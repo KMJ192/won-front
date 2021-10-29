@@ -1,8 +1,10 @@
 import React from 'react';
-import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
-import DonutChart from './DonutChart';
 import { Story } from '@storybook/react';
-import { DonutChartArgs } from './DonutChartTypes';
+
+import DonutChart from './DonutChart';
+import { DonutChartArgs, initDonutChartSize, initDonutChartStyle } from './DonutChartTypes';
+
+import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
 
 export default {
   title: `${MAINTITLE}/${SUBTITLE.MOLECULRES}/DonutChart`,
@@ -10,14 +12,24 @@ export default {
   parameter: {
     componentSubtitle: 'DonutChart 컴포넌트',
   },
-  argTypes: {},
+  argTypes: {
+    size: {
+      options: Object.values(initDonutChartSize).map((value: string) => value),
+      control: { type: 'select' },
+    },
+  },
 };
 
-const DonutChartTemplate = (): JSX.Element => {
-  return <DonutChart />;
+const DonutChartTemplate = (args: DonutChartArgs): JSX.Element => {
+  return <DonutChart {...args} />;
 };
 
 export const PrimaryDonutChart: Story<DonutChartArgs> = DonutChartTemplate.bind({});
 PrimaryDonutChart.args = {
   size: '',
+  customStyle: initDonutChartStyle,
+  customSize: {
+    width: '100%',
+    height: '100%',
+  },
 };

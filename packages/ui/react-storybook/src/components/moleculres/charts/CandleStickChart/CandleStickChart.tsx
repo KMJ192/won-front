@@ -1,7 +1,7 @@
 import React from 'react';
 
 function CandleStickChart(): JSX.Element {
-  return <div></div>;
+  return <div>chart</div>;
 }
 
 export default CandleStickChart;
