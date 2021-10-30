@@ -26,14 +26,17 @@ function PieChart({ data, size, customStyle }: Props) {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const [eArr, setEArr] = useState<PieChartData[][]>([]);
   const [radius, setRadius] = useState<number>(0);
+  const [degree, setDegree] = useState<number>(360);
+  const [convArr, setConvArr] = useState<number[]>([]);
+  const [drawed, setDrawed] = useState<boolean>(false);
 
   // pie chart draw
   const drawArc = useCallback(
     (convArray: number[], circleSize: Position) => {
       if (ctx && circleSize.width && circleSize.height) {
-        let degree = 0;
+        let curDegree: number = 0;
 
-        const eventArray: PieChartData[][] = data.map(() => []);
+        const eventArray: PieChartData[][] = data.slice().map(() => []);
         for (let i = 0; i < convArray.length; i++) {
           const item = convArray[i];
 
@@ -43,13 +46,13 @@ function PieChart({ data, size, customStyle }: Props) {
 
           if (i === 0) {
             ctx.arc(circleSize.width / 2, circleSize.height / 2, radius, 0, angle * item, false);
-            degree = item;
+            curDegree = item;
             eventArray[i] = [
               {
                 value: 0,
               },
               {
-                value: degree,
+                value: curDegree,
               },
             ];
           } else {
@@ -57,19 +60,22 @@ function PieChart({ data, size, customStyle }: Props) {
               circleSize.width / 2,
               circleSize.height / 2,
               radius,
-              angle * degree,
-              angle * (degree + item),
+              angle * curDegree,
+              angle * (curDegree + item),
               false,
             );
             eventArray[i] = [
               {
-                value: degree,
+                value: curDegree,
               },
               {
-                value: degree + item,
+                value: curDegree + item,
               },
             ];
-            degree = eventArray[i][1].value;
+            curDegree += item;
+            if (i === convArray.length - 1) {
+              setDegree(curDegree);
+            }
           }
 
           ctx.closePath();
@@ -89,7 +95,6 @@ function PieChart({ data, size, customStyle }: Props) {
         width: canvas.clientWidth,
         height: canvas.clientHeight,
       };
-      const degree = 360;
       const sum: PieChartData = data.reduce((a, b) => {
         return { value: a.value + b.value };
       });
@@ -98,125 +103,131 @@ function PieChart({ data, size, customStyle }: Props) {
         const myDegree = degree * rate;
         return myDegree;
       });
+      setConvArr(convArray);
       drawArc(convArray, circleSize);
     },
-    [drawArc],
+    [degree, drawArc],
   );
 
+  // mouse 차트 범위 내 이동 감지
   const isInsideArc = useCallback(
-    (x: number, y: number, canvas: HTMLCanvasElement): PieChartEvent => {
-      const posX = canvas.clientWidth / 2 - x;
-      const posY = canvas.clientHeight / 2 - y;
-      const circleLen = Math.floor(canvas.clientWidth / 2) - 5;
-      const len = Math.sqrt(Math.abs(posX * posX) + Math.abs(posY * posY));
-
-      let rad = Math.atan2(posY, posX);
-      rad = (rad * 180) / Math.PI;
-
+    (mouseX: number, mouseY: number): PieChartEvent => {
       let retVal: PieChartEvent = {
         result1: false,
         result2: false,
         index: -1,
-        degree: rad,
+        degree: 0,
       };
+      if (canvas) {
+        const posX = canvas.clientWidth / 2 - mouseX;
+        const posY = canvas.clientHeight / 2 - mouseY;
 
-      if (len <= circleLen) {
+        let rad = Math.atan2(posY, posX);
+        rad = (rad * 180) / Math.PI;
+        rad += 180;
+
+        const circleLen = radius;
+        const len = Math.sqrt(Math.abs(posX * posX) + Math.abs(posY * posY));
+
+        if (len <= circleLen) {
+          retVal = {
+            ...retVal,
+            result1: true,
+          };
+        }
+
+        if (retVal.result1) {
+          eArr.forEach((arr: PieChartData[], idx: number) => {
+            if (rad >= arr[0].value && rad <= arr[1].value) {
+              retVal = {
+                ...retVal,
+                result2: true,
+                index: idx,
+              };
+            }
+          });
+        }
+
         retVal = {
           ...retVal,
-          result1: true,
+          degree: rad,
         };
-      }
-
-      if (retVal.result1) {
-        eArr.forEach((arr: PieChartData[], idx: number) => {
-          if (rad >= arr[0].value && rad <= arr[1].value) {
-            retVal.result2 = true;
-            retVal.index = idx;
-          }
-        });
       }
 
       return retVal;
     },
-    [eArr],
+    [canvas, eArr, radius],
   );
 
-  const hoverCanvas = useCallback(
+  // chart hover
+  const hoverChart = useCallback(
     (idx: number) => {
       if (ctx && canvas) {
-        let degree: number = 360;
+        let curDegree: number = degree;
 
         ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-        const sum: PieChartData = data.reduce((a, b) => {
-          return { value: a.value + b.value };
-        });
-        const convArray = data.map((val: PieChartData) => {
-          const rate = val.value / sum.value;
-          const myDegree = degree * rate;
-          return myDegree;
-        });
-
-        for (let i: number = 0; i < convArray.length; i++) {
-          const item: number = convArray[i];
+        curDegree = 0;
+        for (let i: number = 0; i < convArr.length; i++) {
+          const item: number = convArr[i];
 
           ctx.save();
           ctx.beginPath();
+          ctx.moveTo(canvas.clientWidth / 2, canvas.clientHeight / 2);
 
           let innRadius = radius;
-          ctx.moveTo(canvas.clientWidth / 2, canvas.clientHeight / 2);
           if (idx === i) {
             ctx.lineWidth = 2;
             ctx.strokeStyle = 'blue';
-            innRadius = radius * 1.1;
+            innRadius = radius * 1.15;
           }
-          if (idx === 0) {
+          if (i === 0) {
             ctx.arc(canvas.clientWidth / 2, canvas.clientHeight / 2, innRadius, 0, angle * item, false);
-            degree = item;
+            curDegree = item;
           } else {
             ctx.arc(
               canvas.clientWidth / 2,
               canvas.clientHeight / 2,
               innRadius,
-              angle * degree,
-              angle * (degree + item),
+              angle * curDegree,
+              angle * (curDegree + item),
               false,
             );
-            degree += item;
+            curDegree += item;
           }
           ctx.closePath();
           ctx.stroke();
           ctx.restore();
         }
+        setDegree(curDegree);
       }
     },
-    [canvas, ctx, data, radius],
+    [ctx, canvas, degree, convArr, radius],
   );
 
   const canvasMouseEvent = useCallback(
     (e: MouseEvent) => {
-      let drawed: boolean = false;
       if (canvas) {
-        const x: number = e.clientX - canvas.offsetLeft;
-        const y: number = e.clientY - canvas.offsetTop;
-        const inn: PieChartEvent = isInsideArc(x, y, canvas);
+        const mouseX: number = e.clientX - canvas.offsetLeft;
+        const mouseY: number = e.clientY - canvas.offsetTop;
+        const inn: PieChartEvent = isInsideArc(mouseX, mouseY);
 
         if (inn.index > -1) {
-          drawed = true;
-          hoverCanvas(inn.index);
+          setDrawed(true);
+          hoverChart(inn.index);
         } else {
-          if (drawed) hoverCanvas(-1);
-          drawed = false;
+          if (drawed) hoverChart(-1);
+          setDrawed(true);
         }
       }
     },
-    [canvas, hoverCanvas, isInsideArc],
+    [canvas, drawed, hoverChart, isInsideArc],
   );
 
   // draw chart
   useEffect(() => {
     if (canvasRef.current && data) {
-      const rad = Math.floor(canvasRef.current.clientWidth / 2) - 5;
+      const rad = Math.floor(canvasRef.current.clientWidth / 2) - 50;
       setCanvas(canvasRef.current);
       setCtx(canvasRef.current.getContext('2d'));
       calcData(canvasRef.current, data);
