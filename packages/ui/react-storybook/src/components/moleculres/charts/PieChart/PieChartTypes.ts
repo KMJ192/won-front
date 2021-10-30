@@ -1,5 +1,6 @@
 export interface PieChartData {
   value: number;
+  text?: string;
 }
 
 export interface Position {

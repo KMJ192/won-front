@@ -26,12 +26,15 @@ PrimaryPieChart.args = {
   data: [
     {
       value: 70,
+      text: 'data1',
     },
     {
       value: 150,
+      text: 'data2',
     },
     {
       value: 100,
+      text: 'data3',
     },
   ],
   size: '300px',

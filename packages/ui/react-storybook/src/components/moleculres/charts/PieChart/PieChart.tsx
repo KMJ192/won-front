@@ -50,6 +50,7 @@ function PieChart({ data, size, customStyle }: Props) {
             eventArray[i] = [
               {
                 value: 0,
+                text: data[i].text,
               },
               {
                 value: curDegree,
@@ -67,6 +68,7 @@ function PieChart({ data, size, customStyle }: Props) {
             eventArray[i] = [
               {
                 value: curDegree,
+                text: data[i].text,
               },
               {
                 value: curDegree + item,
@@ -205,6 +207,39 @@ function PieChart({ data, size, customStyle }: Props) {
     [ctx, canvas, degree, convArr, radius],
   );
 
+  function degreeToRadians(degree: number) {
+    return degree * (Math.PI / 180);
+  }
+
+  // text
+  const textDraw = useCallback(
+    (index: number) => {
+      if (canvas && ctx) {
+        eArr.forEach((item: PieChartData[], idx: number) => {
+          const { text } = data[idx];
+          if (text) {
+            const half = (item[1].value - item[0].value) / 2;
+            const deg = item[0].value + half;
+            const xx = Math.cos(degreeToRadians(deg)) * (radius * 0.7) + canvas.clientWidth / 2;
+            const yy = Math.sin(degreeToRadians(deg)) * (radius * 0.7) + canvas.clientHeight / 2;
+
+            const minus = ctx.measureText(text).width / 2;
+            ctx.save();
+            if (index === idx) {
+              ctx.font = 'normal bold 20px serif';
+              ctx.fillStyle = 'blue';
+            } else {
+              ctx.font = 'normal 14px serif';
+            }
+            ctx.fillText(text, xx - minus, yy);
+            ctx.restore();
+          }
+        });
+      }
+    },
+    [canvas, ctx, eArr, radius, data],
+  );
+
   const canvasMouseEvent = useCallback(
     (e: MouseEvent) => {
       if (canvas) {
@@ -215,13 +250,17 @@ function PieChart({ data, size, customStyle }: Props) {
         if (inn.index > -1) {
           setDrawed(true);
           hoverChart(inn.index);
+          textDraw(inn.index);
         } else {
-          if (drawed) hoverChart(-1);
+          if (drawed) {
+            hoverChart(-1);
+            textDraw(-1);
+          }
           setDrawed(true);
         }
       }
     },
-    [canvas, drawed, hoverChart, isInsideArc],
+    [canvas, drawed, hoverChart, isInsideArc, textDraw],
   );
 
   // draw chart
@@ -234,6 +273,10 @@ function PieChart({ data, size, customStyle }: Props) {
       setRadius(rad);
     }
   }, [calcData, data]);
+
+  useEffect(() => {
+    textDraw(-1);
+  }, [textDraw]);
 
   // mouse 이벤트 등록
   useEffect(() => {
