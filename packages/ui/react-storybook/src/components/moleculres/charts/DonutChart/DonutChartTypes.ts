@@ -4,6 +4,18 @@ export interface DonutChartSize {
   readonly SMALL: string;
 }
 
+export interface DonutChartData {
+  value: number;
+  text?: string;
+}
+
+export interface Position {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+}
+
 export const initDonutChartSize: DonutChartSize = {
   LARGE: 'large',
   MEDIUM: 'medium',
@@ -16,10 +28,9 @@ export const initDonutChartStyle = {
 
 export interface DonutChartArgs {
   size?: string;
-  customSize?: {
-    width: string;
-    height: string;
-  };
+  data?: DonutChartData[];
+  colorArray?: string[];
+  customSize?: string;
   customStyle?: {
     [key: string]: string;
   };

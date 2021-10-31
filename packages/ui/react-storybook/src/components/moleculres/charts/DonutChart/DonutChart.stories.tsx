@@ -26,10 +26,26 @@ const DonutChartTemplate = (args: DonutChartArgs): JSX.Element => {
 
 export const PrimaryDonutChart: Story<DonutChartArgs> = DonutChartTemplate.bind({});
 PrimaryDonutChart.args = {
+  data: [
+    {
+      value: 100,
+      text: 'data1',
+    },
+    {
+      value: 200,
+      text: 'data2',
+    },
+    {
+      value: 70,
+      text: 'data3',
+    },
+    {
+      value: 120,
+      text: 'data4',
+    },
+  ],
   size: '',
+  colorArray: ['#f5444e', '#4bbfbc', '#fcb362', '#949fb0', '#c4c24a', '#6faab0'],
   customStyle: initDonutChartStyle,
-  customSize: {
-    width: '100%',
-    height: '100%',
-  },
+  customSize: '300px',
 };

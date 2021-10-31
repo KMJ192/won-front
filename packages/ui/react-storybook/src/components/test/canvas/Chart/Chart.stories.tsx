@@ -1,9 +1,9 @@
 import React from 'react';
 import { Story } from '@storybook/react';
 import Chart from './Chart';
+import { ChartArgs, InitChartType } from './ChartTypes';
 
 import { MAINTITLE, SUBTITLE } from '@src/storybookTitle';
-import { ChartArgs, InitChartType } from './ChartTypes';
 
 export default {
   title: `${MAINTITLE}/${SUBTITLE.TEST}/Canvas/Chart`,
@@ -22,8 +22,9 @@ export default {
 const ChartTemplate = (args: ChartArgs): JSX.Element => {
   return <Chart {...args} />;
 };
-export const BarChart: Story<ChartArgs> = ChartTemplate.bind({});
-BarChart.args = {
+
+export const BarChartStory: Story<ChartArgs> = ChartTemplate.bind({});
+BarChartStory.args = {
   type: InitChartType.BAR_CAHRT,
   canvasStyle: {
     border: 'solid 1px black',

@@ -30,10 +30,30 @@ function PieChart({ data, size, customStyle }: Props) {
   const [convArr, setConvArr] = useState<number[]>([]);
   const [drawed, setDrawed] = useState<boolean>(false);
 
-  // pie chart draw
+  // Pie Chart를 그릴 각도 계산
+  const calcData = useCallback(
+    (canvas: HTMLCanvasElement, data: PieChartData[]): [number[], Position] => {
+      const chartSize: Position = {
+        width: canvas.clientWidth,
+        height: canvas.clientHeight,
+      };
+      const sum: PieChartData = data.reduce((a, b) => {
+        return { value: a.value + b.value };
+      });
+      const convArray = data.map((val: PieChartData) => {
+        const rate = val.value / sum.value;
+        return degree * rate;
+      });
+      setConvArr(convArray);
+      return [convArray, chartSize];
+    },
+    [degree],
+  );
+
+  // Pie Chart 그리기
   const drawArc = useCallback(
-    (convArray: number[], circleSize: Position) => {
-      if (ctx && circleSize.width && circleSize.height) {
+    (convArray: number[], chartSize: Position) => {
+      if (ctx && chartSize.width && chartSize.height) {
         let curDegree: number = 0;
 
         const eventArray: PieChartData[][] = data.slice().map(() => []);
@@ -42,10 +62,10 @@ function PieChart({ data, size, customStyle }: Props) {
 
           ctx.save();
           ctx.beginPath();
-          ctx.moveTo(circleSize.width / 2, circleSize.height / 2);
+          ctx.moveTo(chartSize.width / 2, chartSize.height / 2);
 
           if (i === 0) {
-            ctx.arc(circleSize.width / 2, circleSize.height / 2, radius, 0, angle * item, false);
+            ctx.arc(chartSize.width / 2, chartSize.height / 2, radius, 0, angle * item, false);
             curDegree = item;
             eventArray[i] = [
               {
@@ -58,8 +78,8 @@ function PieChart({ data, size, customStyle }: Props) {
             ];
           } else {
             ctx.arc(
-              circleSize.width / 2,
-              circleSize.height / 2,
+              chartSize.width / 2,
+              chartSize.height / 2,
               radius,
               angle * curDegree,
               angle * (curDegree + item),
@@ -88,27 +108,6 @@ function PieChart({ data, size, customStyle }: Props) {
       }
     },
     [ctx, data, radius],
-  );
-
-  // Pie Chart를 그릴 각도 계산 및 Chart 그리는 함수 실행
-  const calcData = useCallback(
-    (canvas: HTMLCanvasElement, data: PieChartData[]): void => {
-      const circleSize: Position = {
-        width: canvas.clientWidth,
-        height: canvas.clientHeight,
-      };
-      const sum: PieChartData = data.reduce((a, b) => {
-        return { value: a.value + b.value };
-      });
-      const convArray = data.map((val: PieChartData) => {
-        const rate = val.value / sum.value;
-        const myDegree = degree * rate;
-        return myDegree;
-      });
-      setConvArr(convArray);
-      drawArc(convArray, circleSize);
-    },
-    [degree, drawArc],
   );
 
   // mouse 차트 범위 내 이동 감지
@@ -211,7 +210,6 @@ function PieChart({ data, size, customStyle }: Props) {
     return degree * (Math.PI / 180);
   }
 
-  // text
   const textDraw = useCallback(
     (index: number) => {
       if (canvas && ctx) {
@@ -240,9 +238,17 @@ function PieChart({ data, size, customStyle }: Props) {
     [canvas, ctx, eArr, radius, data],
   );
 
+  const drawChart = useCallback(
+    (canvas: HTMLCanvasElement, data: PieChartData[]): void => {
+      const calcatedData = calcData(canvas, data);
+      drawArc(calcatedData[0], calcatedData[1]);
+    },
+    [calcData, drawArc],
+  );
+
   const canvasMouseEvent = useCallback(
     (e: MouseEvent) => {
-      if (canvas) {
+      if (canvas && data) {
         const mouseX: number = e.clientX - canvas.offsetLeft;
         const mouseY: number = e.clientY - canvas.offsetTop;
         const inn: PieChartEvent = isInsideArc(mouseX, mouseY);
@@ -260,23 +266,24 @@ function PieChart({ data, size, customStyle }: Props) {
         }
       }
     },
-    [canvas, drawed, hoverChart, isInsideArc, textDraw],
+    [data, canvas, drawed, hoverChart, isInsideArc, textDraw],
   );
 
   // draw chart
   useEffect(() => {
     if (canvasRef.current && data) {
-      const rad = Math.floor(canvasRef.current.clientWidth / 2) - 50;
+      setRadius(Math.floor(canvasRef.current.clientWidth / 2) * 0.7);
       setCanvas(canvasRef.current);
       setCtx(canvasRef.current.getContext('2d'));
-      calcData(canvasRef.current, data);
-      setRadius(rad);
+      drawChart(canvasRef.current, data);
     }
-  }, [calcData, data]);
+  }, [data, drawChart]);
 
   useEffect(() => {
-    textDraw(-1);
-  }, [textDraw]);
+    if (data) {
+      textDraw(-1);
+    }
+  }, [data, textDraw]);
 
   // mouse 이벤트 등록
   useEffect(() => {
@@ -284,7 +291,7 @@ function PieChart({ data, size, customStyle }: Props) {
     return () => {
       canvas?.removeEventListener('mousemove', canvasMouseEvent);
     };
-  }, [canvas, canvasMouseEvent]);
+  }, [canvas, canvasMouseEvent, data]);
 
   return (
     <canvas
