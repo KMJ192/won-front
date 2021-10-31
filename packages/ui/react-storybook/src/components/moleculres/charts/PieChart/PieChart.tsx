@@ -6,7 +6,7 @@ import style from './PieChart.module.scss';
 const cx = classNames.bind(style);
 
 interface Props {
-  data: PieChartData[];
+  data?: PieChartData[];
   size?: string;
   customStyle?: {
     [key: string]: string;
@@ -14,6 +14,7 @@ interface Props {
 }
 
 PieChart.defaultProps = {
+  data: undefined,
   size: undefined,
   customStyle: undefined,
 };
@@ -51,9 +52,9 @@ function PieChart({ data, size, customStyle }: Props) {
   );
 
   // Pie Chart 그리기
-  const drawArc = useCallback(
+  const chart = useCallback(
     (convArray: number[], chartSize: Position) => {
-      if (ctx && chartSize.width && chartSize.height) {
+      if (data && ctx && chartSize.width && chartSize.height) {
         let curDegree: number = 0;
 
         const eventArray: PieChartData[][] = data.slice().map(() => []);
@@ -212,7 +213,7 @@ function PieChart({ data, size, customStyle }: Props) {
 
   const textDraw = useCallback(
     (index: number) => {
-      if (canvas && ctx) {
+      if (data && canvas && ctx) {
         eArr.forEach((item: PieChartData[], idx: number) => {
           const { text } = data[idx];
           if (text) {
@@ -241,9 +242,9 @@ function PieChart({ data, size, customStyle }: Props) {
   const drawChart = useCallback(
     (canvas: HTMLCanvasElement, data: PieChartData[]): void => {
       const calcatedData = calcData(canvas, data);
-      drawArc(calcatedData[0], calcatedData[1]);
+      chart(calcatedData[0], calcatedData[1]);
     },
-    [calcData, drawArc],
+    [calcData, chart],
   );
 
   const canvasMouseEvent = useCallback(

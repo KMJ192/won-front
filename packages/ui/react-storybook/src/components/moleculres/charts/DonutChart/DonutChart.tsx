@@ -53,6 +53,20 @@ function DonutChart({ size, data, colorArray, customStyle, customSize }: Props):
     [degree],
   );
 
+  const chart = (convArray: number[], chartSize: Position) => {
+    if (data && ctx && chartSize.width && chartSize.height) {
+      let curDegree: number = 0;
+      const eventArray: PieCahrtData[][] = data.map(() => []);
+      for (let i = 0; i < convArray.length; i++) {
+        const item = convArray[i];
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(chartSize.width / 2, chartSize.height / 2);
+      }
+    }
+  };
+
   const drawChart = useCallback(
     (canvas: HTMLCanvasElement, data: DonutChartData[]) => {
       calcData(canvas, data);
