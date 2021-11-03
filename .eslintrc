@@ -5,7 +5,7 @@
     "node": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint","import"],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
     "airbnb",
     "airbnb/hooks",
@@ -16,7 +16,7 @@
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
-  }, 
+  },
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -52,14 +52,12 @@
     "prettier/prettier": 0,
     "prefer-const": 0,
     "no-plusplus": 0,
+    "lines-between-class-members": 0,
 
     // react
     "react/jsx-props-no-spreading": 0,
     "react/forbid-prop-types": 0,
-    "react/jsx-filename-extension": [
-      2,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/button-has-type": 0,
     "react/prop-types": 0,
     "react/self-closing-comp": 0,
@@ -90,10 +88,7 @@
         }
       },
       "plugins": ["@typescript-eslint", "import"],
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
       "rules": {
         // typescript
         "@typescript-eslint/no-explicit-any": 0,
