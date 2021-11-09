@@ -38,6 +38,7 @@ function PieChart({ data, size, customStyle }: Props) {
         width: canvas.clientWidth,
         height: canvas.clientHeight,
       };
+
       const sum: PieChartData = data.reduce((a, b) => {
         return { value: a.value + b.value };
       });

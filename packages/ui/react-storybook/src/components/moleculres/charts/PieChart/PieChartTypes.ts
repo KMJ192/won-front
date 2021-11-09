@@ -1,6 +1,7 @@
 export interface PieChartDefaultType {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
+  data: PieChartData[];
   defaultColor?: string;
   dataLabel?: {
     style?: string;

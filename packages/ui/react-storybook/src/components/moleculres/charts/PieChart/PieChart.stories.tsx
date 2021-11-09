@@ -37,5 +37,5 @@ PrimaryPieChart.args = {
       text: 'data3',
     },
   ],
-  size: '300px',
+  size: '500',
 };
